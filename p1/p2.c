@@ -2,9 +2,14 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <sched.h>
+#include <stdbool.h>
 
-void *increment();
+void *incrementP();
+void *incrementQ();
 
+bool wantp = false;
+bool wantq = false;
+int turn = 1;
 int counter = 0;
 
 int main(){
@@ -22,12 +27,12 @@ int main(){
 	int rc1, rc2;
 	pthread_t t1, t2;
 
-	if ((rc1 = pthread_create(&t1, NULL, &increment, NULL)))
+	if ((rc1 = pthread_create(&t1, NULL, &incrementP, NULL)))
 	{
 		printf("Error creating thread1: %d\n", rc1);
 	}
 
-	if ((rc2 = pthread_create(&t2, NULL, &increment, NULL)))
+	if ((rc2 = pthread_create(&t2, NULL, &incrementQ, NULL)))
 	{
 		printf("Error creating thread2: %d\n", rc2);
 	}
@@ -42,12 +47,71 @@ int main(){
 }
 
 
-void *increment()
+
+void dekkerP(){
+
+	// wantp <- true
+	wantp = true;
+
+	// while wantq
+	while (wantq){
+		if (turn == 2){
+			wantp = false;
+
+			// await turn = 1
+			while (turn == 2){
+				pthread_yield();
+			}
+
+			wantp = true;
+		}
+	}
+	// critical section
+	counter++;
+	turn = 2;
+	wantp = false;
+
+}
+
+void dekkerQ(){
+
+	// wantq <- true
+	wantq = true;
+
+	// while wantq
+	while (wantp){
+		if (turn == 1){
+			wantq = false;
+
+			// await turn = 1
+			while (turn == 1){
+				pthread_yield();
+			}
+
+			wantq = true;
+		}
+	}
+	// critical section
+	counter++;
+	turn = 1;
+	wantq = false;
+
+}
+
+void *incrementP()
+{
+	int i;
+	for (i = 0; i < 100000000; i++){
+		dekkerP();
+	}
+}
+
+void *incrementQ()
 {
 	int i;
 //	int *counter = (int *)counter_ptr;
 	for (i = 0; i < 100000000; i++){
-		counter++;
+		dekkerQ();
 	}
 }
 

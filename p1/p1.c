@@ -3,7 +3,8 @@
 #include <pthread.h>
 #include <sched.h>
 
-void *increment();
+void *incrementP();
+void *incrementQ();
 
 int counter = 0;
 
@@ -22,12 +23,12 @@ int main(){
 	int rc1, rc2;
 	pthread_t t1, t2;
 
-	if ((rc1 = pthread_create(&t1, NULL, &increment, NULL)))
+	if ((rc1 = pthread_create(&t1, NULL, &incrementP, NULL)))
 	{
 		printf("Error creating thread1: %d\n", rc1);
 	}
 
-	if ((rc2 = pthread_create(&t2, NULL, &increment, NULL)))
+	if ((rc2 = pthread_create(&t2, NULL, &incrementQ, NULL)))
 	{
 		printf("Error creating thread2: %d\n", rc2);
 	}
@@ -42,7 +43,16 @@ int main(){
 }
 
 
-void *increment()
+void *incrementP()
+{
+	int i;
+//	int *counter = (int *)counter_ptr;
+	for (i = 0; i < 100000000; i++){
+		counter++;
+	}
+}
+
+void *incrementQ()
 {
 	int i;
 //	int *counter = (int *)counter_ptr;
