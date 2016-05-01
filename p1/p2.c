@@ -52,49 +52,30 @@ void dekkerP(){
 
 	// wantp <- true
 	wantp = true;
-
-	// while wantq
-	while (wantq){
-		if (turn == 2){
-			wantp = false;
-
-			// await turn = 1
-			while (turn == 2){
-				pthread_yield();
-			}
-
-			wantp = true;
-		}
-	}
-	// critical section
-	counter++;
 	turn = 2;
+	// while wantq
+	while (wantq && (turn == 2))
+	{
+		pthread_yield();
+	}
+	counter++;
 	wantp = false;
-
+		
 }
 
 void dekkerQ(){
 
-	// wantq <- true
+	// wantp <- true
 	wantq = true;
-
-	// while wantq
-	while (wantp){
-		if (turn == 1){
-			wantq = false;
-
-			// await turn = 1
-			while (turn == 1){
-				pthread_yield();
-			}
-
-			wantq = true;
-		}
-	}
-	// critical section
-	counter++;
 	turn = 1;
+	// while wantq
+	while (wantp && (turn == 1))
+	{
+		pthread_yield();
+	}
+	counter++;
 	wantq = false;
+
 
 }
 
