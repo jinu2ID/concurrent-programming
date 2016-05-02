@@ -47,7 +47,7 @@ void *incrementP()
 {
 	int i;
 //	int *counter = (int *)counter_ptr;
-	for (i = 0; i < 100000000; i++){
+	for (i = 0; i < 1000000; i++){
 		counter++;
 	}
 }
@@ -56,7 +56,7 @@ void *incrementQ()
 {
 	int i;
 //	int *counter = (int *)counter_ptr;
-	for (i = 0; i < 100000000; i++){
+	for (i = 0; i < 1000000; i++){
 		counter++;
 	}
 }

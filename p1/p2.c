@@ -82,7 +82,7 @@ void dekkerQ(){
 void *incrementP()
 {
 	int i;
-	for (i = 0; i < 100000000; i++){
+	for (i = 0; i < 1000000; i++){
 		dekkerP();
 	}
 }
@@ -91,7 +91,7 @@ void *incrementQ()
 {
 	int i;
 //	int *counter = (int *)counter_ptr;
-	for (i = 0; i < 100000000; i++){
+	for (i = 0; i < 1000000; i++){
 		dekkerQ();
 	}
 }
