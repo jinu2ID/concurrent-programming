@@ -1,0 +1,31 @@
+Jinu Jacob
+Implementing Dekker's Algorithm
+4/16
+
+Files:
+p1.c - creates two threads which increment a shared global counter
+p2.c - first implementation of Dekker's algorithm to p1
+p3.c - second implementation of Dekker's algorithm to p1
+Makefile
+
+----------------------------------------------------------------------------------
+SUMMARY
+----------------------------------------------------------------------------------
+
+The purpose of these programs is to show Dekker's algorithm. p1.c creates a
+race condition. p2.c implements Dekkers algorithm to solve this problem. p2
+worked fine on my linux machine at home but not on tux. After debugging I
+still do not understand why. I wrote p3.c in case I missed something in p2.
+p3 worked on both machines but is not a direct implementation of Dekker's
+alogrithm.
+
+----------------------------------------------------------------------------------
+HOW TO RUN
+----------------------------------------------------------------------------------
+
+Commands:
+make - compile and run all three programs
+make p1 - compile and run p1.c
+make p2 - compile and run p2.c
+make p3 - compile and run p3.c
+make clean - remove output files
