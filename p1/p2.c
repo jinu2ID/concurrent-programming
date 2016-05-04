@@ -10,7 +10,7 @@ void *incrementQ();
 bool wantp = false;
 bool wantq = false;
 int turn = 1;
-int counter = 0;
+int volatile counter = 0;
 
 int main(){
 
@@ -46,7 +46,9 @@ int main(){
 
 }
 
-
+void incrementCounter(){
+	counter++;
+}
 
 void dekkerP(){
 
@@ -60,7 +62,7 @@ void dekkerP(){
 
 			// await turn = 1
 			while (turn == 2){
-				pthread_yield();
+				//pthread_yield();
 			}
 
 			wantp = true;
@@ -85,7 +87,7 @@ void dekkerQ(){
 
 			// await turn = 1
 			while (turn == 1){
-				pthread_yield();
+				//pthread_yield();
 			}
 
 			wantq = true;
