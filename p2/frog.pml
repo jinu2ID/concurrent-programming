@@ -1,4 +1,6 @@
-// 6 Frogs Puzzle
+/* 6 Frogs Puzzle
+Reference: http://www.weizmann.ac.il/sci-tea/benari/keynote/invisible-slides.pdf
+*/
 
 #define STONES 7
 
