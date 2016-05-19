@@ -1,0 +1,44 @@
+1. Ticket Lock Promela
+   options: spin -a -f '!<>(counter==6)' ticket.pml
+   	    ./pan -a
+    
+   output:  
+  
+warning: for p.o. reduction to be valid the never claim must be stutter-invariant
+(never claims generated from LTL formulae are stutter-invariant)
+
+(Spin Version 6.2.7 -- 2 March 2014)
+        + Partial Order Reduction
+
+Full statespace search for:
+        never claim             + (never_0)
+        assertion violations    + (if within scope of claim)
+        acceptance   cycles     + (fairness disabled)
+        invalid end states      - (disabled by never claim)
+
+State-vector 80 byte, depth reached 112, errors: 0
+   183504 states, stored (367008 visited)
+   857089 states, matched
+  1224097 transitions (= visited+matched)
+        0 atomic steps
+hash conflicts:      5272 (resolved)
+
+Stats on memory usage (in Megabytes):
+   18.900       equivalent memory usage for states (stored*(State-vector + overhead))
+   15.631       actual memory usage for states (compression: 82.70%)
+                state-vector as stored = 61 byte + 28 byte overhead
+  128.000       memory used for hash table (-w24)
+    0.534       memory used for DFS stack (-m10000)
+  144.062       total actual memory usage
+
+
+unreached in proctype ticketLock
+        ticket.pml:28, state 16, "-end-"
+        (1 of 16 states)
+unreached in claim never_0
+        ticket.pml.nvr:8, state 6, "-end-"
+        (1 of 6 states)
+
+pan: elapsed time 1.7 seconds
+pan: rate 215887.06 states/second
+
