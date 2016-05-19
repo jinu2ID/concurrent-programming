@@ -54,8 +54,9 @@ void dekkerP(){
 
 	// wantp <- true
 	wantp = true;
-
+	turn = 2;
 	// while wantq
+<<<<<<< .merge_file_WGCsuh
 	while (wantq){
 		if (turn == 2){
 			wantp = false;
@@ -67,20 +68,24 @@ void dekkerP(){
 
 			wantp = true;
 		}
+=======
+	while (wantq && (turn == 2))
+	{
+		pthread_yield();
+>>>>>>> .merge_file_K9gpJh
 	}
-	// critical section
 	counter++;
-	turn = 2;
 	wantp = false;
-
+		
 }
 
 void dekkerQ(){
 
-	// wantq <- true
+	// wantp <- true
 	wantq = true;
-
+	turn = 1;
 	// while wantq
+<<<<<<< .merge_file_WGCsuh
 	while (wantp){
 		if (turn == 1){
 			wantq = false;
@@ -92,11 +97,15 @@ void dekkerQ(){
 
 			wantq = true;
 		}
+=======
+	while (wantp && (turn == 1))
+	{
+		pthread_yield();
+>>>>>>> .merge_file_K9gpJh
 	}
-	// critical section
 	counter++;
-	turn = 1;
 	wantq = false;
+
 
 }
 
