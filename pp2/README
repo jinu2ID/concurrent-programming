@@ -1,8 +1,12 @@
+Author: Jinu Jacob
+
+-------------------------------------------------------------------------------
 1. Ticket Lock Promela
-   options: spin -a -f '!<>(counter==6)' ticket.pml
-   	    ./pan -a
+-------------------------------------------------------------------------------
+options: spin -a -f '!<>(counter==6)' ticket.pml
+   	   ./pan -a
     
-   output:  
+output:  
   
 warning: for p.o. reduction to be valid the never claim must be stutter-invariant
 (never claims generated from LTL formulae are stutter-invariant)
@@ -41,4 +45,58 @@ unreached in claim never_0
 
 pan: elapsed time 1.7 seconds
 pan: rate 215887.06 states/second
+
+
+-------------------------------------------------------------------------------
+2. Ticket Lock C
+-------------------------------------------------------------------------------
+output:
+
+Ran 100,000 iterations each on 6 threads with ticket lock disabled:
+
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 91476
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 200000
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 84733
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 89258
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 171301
+
+With ticket lock:
+ 
+100,000 iterations
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 600000
+jj559@tux64-14:~/cs361/pp2$
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 600000
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 600000
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 600000
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 600000
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 600000
+
+
+1,000,000 iterations
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 6000000
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 6000000
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 6000000
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 6000000
+jj559@tux64-14:~/cs361/pp2$ ./ticket.o
+counter = 6000000
+
+
+-------------------------------------------------------------------------------
+MCS Lock Promela
+-------------------------------------------------------------------------------
 
