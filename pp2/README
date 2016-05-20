@@ -99,4 +99,42 @@ counter = 6000000
 -------------------------------------------------------------------------------
 MCS Lock Promela
 -------------------------------------------------------------------------------
+options: spin -a -f '!<>(counter==5)' mcs.pml
+		   ./pan -a
+
+output:
+warning: for p.o. reduction to be valid the never claim must be
+stutter-invariant
+(never claims generated from LTL formulae are stutter-invariant)
+pan:1: acceptance cycle (at depth 118)
+pan: wrote mcs.pml.trail
+
+(Spin Version 6.2.7 -- 2 March 2014)
+Warning: Search not completed
+        + Partial Order Reduction
+
+Full statespace search for:
+        never claim             + (never_0)
+        assertion violations    + (if within scope of claim)
+        acceptance   cycles     + (fairness disabled)
+        invalid end states      - (disabled by never claim)
+
+State-vector 132 byte, depth reached 144, errors: 1
+     1248 states, stored (2435 visited)
+     2719 states, matched
+     5154 transitions (= visited+matched)
+        0 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.190       equivalent memory usage for states (stored*(State-vector +
+overhead))
+    0.385       actual memory usage for states
+  128.000       memory used for hash table (-w24)
+    0.534       memory used for DFS stack (-m10000)
+  128.827       total actual memory usage
+
+
+
+pan: elapsed time 0.01 seconds
 

@@ -1,6 +1,6 @@
 // MCS lock implementation in Promela
 
-#define N 2
+#define N 3
 
 typedef LNode {
 	int next;
@@ -22,9 +22,9 @@ inline acquire_lock(_myNode){
 
 	if
 	::pred ->
-		queue[myNode].waiting = 1;
-		queue[pred].next = myNode;
-		queue[myNode].waiting == 0		// wait for lock
+		queue[_myNode].waiting = 1;
+		queue[pred].next = _myNode;
+		queue[_myNode].waiting == 0		// wait for lock
 	::else ->
 		skip;
 	fi;
@@ -34,7 +34,7 @@ inline acquire_lock(_myNode){
 inline release_lock(_myNode){
 
 	int ret;
-	int succ = queue[myNode].next;
+	int succ = queue[_myNode].next;
 
 	if
 	:: (succ == 0) ->
@@ -49,10 +49,10 @@ inline release_lock(_myNode){
 		:: else -> skip;
 		fi;
 
-		succ = queue[myNode].next;
+		succ = queue[_myNode].next;
 
 		do
-		:: succ == 0 -> succ = queue[myNode].next;
+		:: succ == 0 -> succ = queue[_myNode].next;
 		:: else -> break;
 		od;
 	else ->
