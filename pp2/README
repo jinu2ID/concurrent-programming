@@ -99,7 +99,7 @@ counter = 6000000
 -------------------------------------------------------------------------------
 MCS Lock Promela
 -------------------------------------------------------------------------------
-options: spin -a -f '!<>(counter==5)' mcs.pml
+options: spin -a -f '!<>(counter==5)' mcs3.pml
 		   ./pan -a
 
 output:
@@ -107,7 +107,7 @@ warning: for p.o. reduction to be valid the never claim must be
 stutter-invariant
 (never claims generated from LTL formulae are stutter-invariant)
 pan:1: acceptance cycle (at depth 118)
-pan: wrote mcs.pml.trail
+pan: wrote mcs3.pml.trail
 
 (Spin Version 6.2.7 -- 2 March 2014)
 Warning: Search not completed
