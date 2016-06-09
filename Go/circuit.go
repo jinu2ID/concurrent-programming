@@ -5,8 +5,7 @@ import "fmt"
 func inverter(in chan bool, out chan bool){
 
 	a := <-in
-	a = !a
-	out <- a
+	out <- !a
 }
 
 
@@ -14,12 +13,7 @@ func andGate(in chan bool, out chan bool){
 	a := <-in
 	b := <-in
 
-	if a && b {
-		out<-true
-
-	} else {
-		out<-false
-	}
+	out <- (a && b)
 
 }
 
@@ -28,12 +22,7 @@ func orGate(in chan bool, out chan bool){
 	a := <-in
 	b := <-in
 
-	if a || b {
-		out<-false
-
-	} else {
-		out<-true
-	}
+	out <- (a || b)
 
 }
 
@@ -41,22 +30,15 @@ func nandGate(in chan bool, out chan bool){
 	a := <-in
 	b := <-in
 
-	if a && b {
-		out<-false
-	} else {
-		out<-true
-	}
+	out <- !(a && b)
+
 }
 
 func norGate(in chan bool, out chan bool){
 	a := <-in
 	b := <-in
 
-	if !(a && b) {
-		out<-true
-	} else {
-		out<-false
-	}
+	out <- !(a || b)
 
 }
 
@@ -76,15 +58,15 @@ func main(){
 	in := make(chan bool)
 	out := make(chan bool)
 
-	go xorGate(in, out)
-	in <- false
+	go orGate(in, out)
+	in <- true
 	in <- true
 
 	x := <-out
 
-	//go inverter(in, out)
-	//in <- x
-	//x = <-out
+	go inverter(in, out)
+	in <- x
+	x = <-out
 
 	fmt.Printf("%t\n", x)
 
