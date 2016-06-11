@@ -1,0 +1,28 @@
+1, ............ [0] A0
+1, ............ [1] B1
+1, ............ [2] Cin1
+fan,0,1, ...... [3] fan A0 -> Xor1, And2
+fan,1,1, ...... [4] fan B1 -> Xor1, And2
+fan,2,1, ...... [5] fan Cin1 -> Xor2, And1
+XorGate,0,1, .. [6] Xor1 <- A0,B1
+fan,6,1, ...... [7] fan Xor1 -> Xor2, And1
+XorGate,2,6, .. [8] Xor2 <- Cin1, Xor1
+AndGate,2,6, .. [9] And1 <- Cin1, Xor1
+AndGate,0,1, .. [10] And2 <- A0,B1
+OrGate,9,10, .. [11] Or1 <- And1, And2
+Output,8, ..... [12] Sum <- Xor2
+CarryOut,11, .. [13] Cout1 <- Or1
+1, ............ [14] A1
+1, ............ [15] B2
+CarryIn,13, ... [16] Cin2 <- Cout1
+fan,14,1, ..... [17] fan A1 -> Xor3, And4
+fan,15,1, ..... [18] fan B2 -> Xor3, And4
+fan,16,1, ..... [19] fan Cin2 -> Xor4, And3
+XorGate,14,15,  [20] Xor3 <- A1,B2
+fan,20,1, ..... [21] fan Xor3 -> Xor4, And3
+XorGate,16,20,  [22] Xor4 <- Cin2, Xor3
+AndGate,16,20,  [23] And3 <- Cin2, Xor3
+AndGate,14,15,  [24] And4 <- A1, B2
+OrGate,23,24, . [25] Or2 <- And3, And4
+Output,22, .... [26] Sum <- Xor4
+Output,25, .... [27] Cout2 <- Or2

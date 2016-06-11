@@ -1,0 +1,57 @@
+1, ............ [0] A0
+0, ............ [1] B0
+0, ............ [2] Cin0
+fan,0,1, ...... [3] fan A0 -> Xor0, And1
+fan,1,1, ...... [4] fan B0 -> Xor0, And1
+fan,2,1, ...... [5] fan Cin1 -> Xor1, And0
+XorGate,0,1, .. [6] Xor0 <- A0,B0
+fan,6,1, ...... [7] fan Xor1 -> Xor1, And0
+XorGate,2,6, .. [8] Xor1 <- Cin0, Xor1
+AndGate,2,6, .. [9] And0 <- Cin0, Xor1
+AndGate,0,1, .. [10] And1 <- A0,B0
+OrGate,9,10, .. [11] Or0 <- And0, And1
+Output,8, ..... [12] Sum0 <- Xor1
+CarryOut,11, .. [13] Cout0 <- Or0
+1, ............ [14] A1
+0, ............ [15] B1
+CarryIn,13, ... [16] Cin1 <- Cout0
+fan,14,1, ..... [17] fan A1 -> Xor2, And3
+fan,15,1, ..... [18] fan B1 -> Xor2, And3
+fan,16,1, ..... [19] fan Cin2 -> Xor3, And2
+XorGate,14,15,  [20] Xor3 <- A1,B1
+fan,20,1, ..... [21] fan Xor2 -> Xor3, And2
+XorGate,16,20,  [22] Xor3<- Cin1, Xor2
+AndGate,16,20,  [23] And2<- Cin1, Xor2
+AndGate,14,15,  [24] And3<- A1, B1
+OrGate,23,24, . [25] Or1 <- And2, And3
+Output,22, .... [26] Sum1 <- Xor3
+CarryOut,25, .. [27] Cout1 <- Or1
+0, ............ [28] A2
+1, ............ [29] B2
+CarryIn,27, ... [30] Cin2 <- Cout1
+fan,28,1, ..... [31] fan A2 -> Xor5, And5
+fan,29,1, ..... [32] fan B2 -> Xor5, And5
+fan,30,1, ..... [33] fan Cin2 -> Xor5, And4
+XorGate,28,29,  [34] Xor4<- A2,B2
+fan,34,1, ..... [35] fan Xor4 -> Xor5, And4
+XorGate,30,34,  [36] Xor5<- Cin2, Xor4
+AndGate,30,34,  [37] And4 <- Cin2, Xor4
+AndGate,28,29,  [38] And5<- A2, B2
+OrGate,37,38, . [39] Or2 <- And4, And5
+Output,36, .... [40] Sum2 <- Xor5
+Carryout,39, .. [41] Cout2 <- Or2
+0, ............ [42] A3
+1, ............ [43] B3
+CarryIn,41, ... [44] Cin3 <- Cout2
+fan,42,1, ..... [45] fan A3 -> Xor7, And7
+fan,43,1, ..... [46] fan B3 -> Xor7, And7
+fan,44,1, ..... [47] fan Cin3 -> Xor7, And6
+XorGate,42,43,  [48] Xor6<- A3,B3
+fan,48,1, ..... [49] fan Xor6 -> Xor7, And6
+XorGate,44,48,  [50] Xor5<- Cin3, Xor6
+AndGate,44,48,  [51] And6 <- Cin3, Xor6
+AndGate,42,43,  [52] And7<- A3, B3
+OrGate,51,52, . [53] Or3 <- And6, And7
+Output,50, .... [54] Sum3 <- Xor7
+Output,53, .... [55] Cout3 <- Or3
+
