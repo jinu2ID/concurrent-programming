@@ -1,0 +1,15 @@
+1
+1
+0
+fan,0,1
+fan 1,1
+fan 3,1
+XorGate,0,1
+fan,6,1
+XorGate,6,2
+AndGate,6,2
+AndGate,0,1
+OrGate,9,10
+Output,8
+Output,11
+

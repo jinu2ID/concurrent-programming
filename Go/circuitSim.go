@@ -6,85 +6,90 @@ import (
 	"os"
 	"strings"
 	"strconv"
+	"sync"
 	//"time"
 )
 
 
 
 // Gate routines
-func inverter(in chan bool, out chan bool){
+func inverter(in chan bool, out chan bool, wg *sync.WaitGroup){
 
 	a := <-in
 	out <- !a
+	wg.Done()
 }
 
 
-func andGate(in1 chan bool, in2 chan bool, out chan bool){
+func andGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
 	a := <-in1
 	b := <-in2
-	fmt.Printf("XorGate %v %v\n", a, b)
 	out <- (a && b)
+	wg.Done()
 
 }
 
 
-func orGate(in1 chan bool, in2 chan bool, out chan bool){
+func orGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
 	a := <-in1
 	b := <-in2
 
 	out <- (a || b)
-
+	wg.Done()
 }
 
-func nandGate(in1 chan bool, in2 chan bool, out chan bool){
+func nandGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
 	a := <-in1
 	b := <-in2
 
 	out <- !(a && b)
-
+	wg.Done()
 }
 
-func norGate(in1 chan bool, in2 chan bool, out chan bool){
+func norGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
 	a := <-in1
 	b := <-in2
 
 	out <- !(a || b)
-
+	wg.Done()
 }
 
-func xorGate(in1 chan bool, in2 chan bool, out chan bool){
+func xorGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
 	a := <-in1
 	b := <-in2
-	fmt.Printf("XorGate %v %v\n", a, b)
 	if (a == b){
 		out<-false
 	} else {
 		out<-true
 	}
+	wg.Done()
 }
 
 // Stores input values
-func input(in chan bool, val bool){
+func input(in chan bool, val bool, wg *sync.WaitGroup){
 	in <-val
+	wg.Done()
 }
 
 // Retrieves final output
-func output(out chan bool, main chan bool, last bool){
+func output(out chan bool, main chan bool, last bool, wg *sync.WaitGroup){
 	x := <-out
-	main <-x
-
-	if last{
-		close(main)
+	if x {
+		fmt.Print(1)
+	} else {
+		fmt.Print(0)
 	}
+	wg.Done()
 }
 
 // fan out
-func fan(target chan bool, n int){
+func fan(target chan bool, n int, wg *sync.WaitGroup){
 
 	x := <-target
 	for i := 0; i < n+1; i++ {
 		target <-x
 	}
+	wg.Done()
 }
 
 // Simulates clock signal
@@ -110,25 +115,30 @@ func fan(target chan bool, n int){
 
 func simulate(instr []string, lc int, result chan bool) {
 
+	var wg sync.WaitGroup
+	wg.Add(lc)
 	var channels []chan bool
 
 	for i, val := range instr {
-		channel := make(chan bool, 5)
+		channel := make(chan bool, 2)
 
 		values := strings.Split(val, ",")
 
 		// Inputs
 		if values[0] == "0" {
-			go input(channel, false)
+		//	wg.Add(1)
+			go input(channel, false, &wg)
 		} else if values[0] == "1" {
-			go input(channel, true)
+		//	wg.Add(1)
+			go input(channel, true, &wg)
 		} else if values[0] == "fan"{
 
 			input1, err1 := strconv.Atoi(values[1]);
 			input2, err2 := strconv.Atoi(values[2]);
 
 			if  err1 == nil && err2 == nil {
-				go fan(channels[input1], input2)
+		//		wg.Add(1)
+				go fan(channels[input1], input2, &wg)
 			} else {
 				fmt.Println("format error in file")
 			}
@@ -139,7 +149,9 @@ func simulate(instr []string, lc int, result chan bool) {
 			input2, err2 := strconv.Atoi(values[2]);
 
 			if  err1 == nil && err2 == nil {
-				go andGate(channels[input1], channels[input2], channel)
+		//		wg.Add(1)
+				go andGate(channels[input1], channels[input2], channel, &wg)
+
 			} else {
 				fmt.Println("format error in file")
 			}
@@ -150,7 +162,8 @@ func simulate(instr []string, lc int, result chan bool) {
 			input2, err2 := strconv.Atoi(values[2]);
 
 			if  err1 == nil && err2 == nil {
-				go orGate(channels[input1], channels[input2], channel)
+		//		wg.Add(1)
+				go orGate(channels[input1], channels[input2], channel, &wg)
 			} else {
 				fmt.Println("format error in file")
 			}
@@ -162,7 +175,8 @@ func simulate(instr []string, lc int, result chan bool) {
 			input2, err2 := strconv.Atoi(values[2]);
 
 			if  err1 == nil && err2 == nil {
-				go nandGate(channels[input1], channels[input2], channel)
+		//		wg.Add(1)
+				go nandGate(channels[input1], channels[input2], channel, &wg)
 			} else {
 				fmt.Println("format error in file")
 			}
@@ -173,7 +187,8 @@ func simulate(instr []string, lc int, result chan bool) {
 			input2, err2 := strconv.Atoi(values[2]);
 
 			if  err1 == nil && err2 == nil {
-				go norGate(channels[input1], channels[input2], channel)
+		//		wg.Add(1)
+				go norGate(channels[input1], channels[input2], channel, &wg)
 			} else {
 				fmt.Println("format error in file")
 			}
@@ -184,20 +199,24 @@ func simulate(instr []string, lc int, result chan bool) {
 			input2, err2 := strconv.Atoi(values[2]);
 
 			if  err1 == nil && err2 == nil {
-				go xorGate(channels[input1], channels[input2], channel)
+		//		wg.Add(1)
+				go xorGate(channels[input1], channels[input2], channel, &wg)
 			} else {
 				fmt.Println("format error in file")
 			}
 
 		} else if values[0] == "Output" {
+				if index, err := strconv.Atoi(values[1]); err == nil{
 
-			if index, err := strconv.Atoi(values[1]); err == nil{
 
+				if i == lc-1 {
+		//			wg.Add(1)
+					go output(channels[index], result, true, &wg)
 
-				if i == lc {
-					go output(channels[index], result, true)
 				} else {
-					go output(channels[index], result, true)
+		//			wg.Add(1)
+					go output(channels[index], result, false, &wg)
+
 				}
 
 
@@ -210,12 +229,13 @@ func simulate(instr []string, lc int, result chan bool) {
 		channels = append(channels, channel)
 
 	}
+	wg.Wait()
 }
 
 func read(fileName string) ([]string, int) {
 
 	var lines []string
- 	lineCount := 0
+	lineCount := 0
 
 	if file, err := os.Open(fileName); err == nil {
 
@@ -254,8 +274,8 @@ func main(){
 	res := make(chan bool)
 
 	simulate(lines, lc, res)
-	for x := range res{
-		fmt.Println(x)
-	}
+	//for x := range res{
+	//	fmt.Println(x)
+	//}
 
 }
