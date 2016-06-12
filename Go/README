@@ -1,0 +1,50 @@
+Author: Jinu Jacob
+jj559@drexel.edu
+6/16
+
+SUMMARY
+---------------------------------------------------------------
+
+circuitSim.go simulates digital logic using Go routines and 
+channels
+
+---------------------------------------------------------------
+
+HOW TO RUN
+---------------------------------------------------------------
+To run the circuit simulator use the following command:
+
+	go run circuitSim.go [circuit file] [number of outputs]
+
+The circuit file should follow the guidelines below. The number
+of outputs should be the total outputs the circuit has not 
+including the carryout (a 4-bit adder would have 4 outputs, an 
+8-bit adder would have 8).
+
+---------------------------------------------------------------
+
+Circuit File Format
+---------------------------------------------------------------
+
+Each line of the circuit file can be one of the following:
+
+	1 or 0
+	AndGate,[input],[input],
+	OrGate,[input],[input],
+	NandGate,[input],[input],
+	NorGate,[input],[input],
+	XorGate,[input],[input],
+	CarryIn,[input]
+	CarryOut,[input],
+	Output,[input],
+
+A line should refer to another line for its input. A line can
+be referred to by its line number(zero-based). The file should
+be started with atleast a 0 or 1 as the initial input. Multiple
+inputs can be added.
+Lines may only refer to previous lines for input. Each line 
+should be terminated with a comma. 
+Please refer to the halfAdder, fullAdder, 4bitAdder, and
+8bitAdder for examples.
+
+

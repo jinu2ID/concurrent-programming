@@ -1,71 +1,80 @@
 0, ............ [0] A0
 0, ............ [1] B0
 0, ............ [2] Cin0
-fan,0,1, ...... [3] fan A0 -> Xor0, And1
-fan,1,1, ...... [4] fan B0 -> Xor0, And1
-fan,2,1, ...... [5] fan Cin1 -> Xor1, And0
-XorGate,0,1, .. [6] Xor0 <- A0,B0
-fan,6,1, ...... [7] fan Xor1 -> Xor1, And0
-XorGate,2,6, .. [8] Xor1 <- Cin0, Xor1
-AndGate,2,6, .. [9] And0 <- Cin0, Xor1
-AndGate,0,1, .. [10] And1 <- A0,B0
-OrGate,9,10, .. [11] Or0 <- And0, And1
-Output,8, ..... [12] Sum0 <- Xor1
-CarryOut,11, .. [13] Cout0 <- Or0
-1, ............ [14] A1
-1, ............ [15] B1
-CarryIn,13, ... [16] Cin1 <- Cout0
-fan,14,1, ..... [17] fan A1 -> Xor2, And3
-fan,15,1, ..... [18] fan B1 -> Xor2, And3
-fan,16,1, ..... [19] fan Cin2 -> Xor3, And2
-XorGate,14,15,  [20] Xor3 <- A1,B1
-fan,20,1, ..... [21] fan Xor2 -> Xor3, And2
-XorGate,16,20,  [22] Xor3<- Cin1, Xor2
-AndGate,16,20,  [23] And2<- Cin1, Xor2
-AndGate,14,15,  [24] And3<- A1, B1
-OrGate,23,24, . [25] Or1 <- And2, And3
-Output,22, .... [26] Sum1 <- Xor3
-CarryOut,25, .. [27] Cout1 <- Or1
-1, ............ [28] A2
-1, ............ [29] B2
-CarryIn,27, ... [30] Cin2 <- Cout1
-fan,28,1, ..... [31] fan A2 -> Xor5, And5
-fan,29,1, ..... [32] fan B2 -> Xor5, And5
-fan,30,1, ..... [33] fan Cin2 -> Xor5, And4
-XorGate,28,29,  [34] Xor4<- A2,B2
-fan,34,1, ..... [35] fan Xor4 -> Xor5, And4
-XorGate,30,34,  [36] Xor5<- Cin2, Xor4
-AndGate,30,34,  [37] And4 <- Cin2, Xor4
-AndGate,28,29,  [38] And5<- A2, B2
-OrGate,37,38, . [39] Or2 <- And4, And5
-Output,36, .... [40] Sum2 <- Xor5
-CarryOut,39, .. [41] Cout2 <- Or2
-1, ............ [42] A3
-1, ............ [43] B3
-CarryIn,41, ... [44] Cin3 <- Cout2
-fan,42,1, ..... [45] fan A3 -> Xor7, And7
-fan,43,1, ..... [46] fan B3 -> Xor7, And7
-fan,44,1, ..... [47] fan Cin3 -> Xor7, And6
-XorGate,42,43,  [48] Xor6<- A3,B3
-fan,48,1, ..... [49] fan Xor6 -> Xor7, And6
-XorGate,44,48,  [50] Xor5<- Cin3, Xor6
-AndGate,44,48,  [51] And6 <- Cin3, Xor6
-AndGate,42,43,  [52] And7<- A3, B3
-OrGate,51,52, . [53] Or3 <- And6, And7
-Output,50, .... [54] Sum3 <- Xor7
-CarryOut,53, .. [55] Cout3 <- Or3
-1, ............ [56] A3
-1, ............ [57] B3
-CarryIn,55, ... [58] Cin3 <- Cout2
-fan,56,1, ..... [59] fan A3 -> Xor7, And7
-fan,57,1, ..... [60] fan B3 -> Xor7, And7
-fan,58,1, ..... [61] fan Cin3 -> Xor7, And6
-XorGate,56,57,  [62] Xor6<- A3,B3
-fan,62,1, ..... [63] fan Xor6 -> Xor7, And6
-XorGate,58,62,  [64] Xor5<- Cin3, Xor6
-AndGate,58,62,  [65] And6 <- Cin3, Xor6
-AndGate,56,57,  [66] And7<- A3, B3
-OrGate,65,66, . [67] Or3 <- And6, And7
-Output,64, .... [68] Sum3 <- Xor7
-Output,67, .... [69] Cout3 <- Or3
-
+XorGate,0,1, .. [3] Xor0 <- A0,B0
+XorGate,2,3, .. [4] Xor1 <- Cin0, Xor1
+AndGate,2,3, .. [5] And0 <- Cin0, Xor1
+AndGate,0,1, .. [6] And1 <- A0,B0
+OrGate,5,6, ... [7] Or0  <- And0, And1
+Output,4, ..... [8] Sum0 <- Xor1
+CarryOut,7, ... [9] Cout0 <- Or0
+1, ............ [10] A1
+1, ............ [11] B1
+CarryIn,9, .... [12] Cin1 <- Cout0
+XorGate,10,11,  [13] Xor2 <- A1,B1
+XorGate,12,13,  [14] Xor3 <- Cin1, Xor2
+AndGate,12,13,  [15] And2 <- Cin1, Xor2
+AndGate,10,11,  [16] And3 <- A1, B1
+OrGate,15,16, . [17] Or1  <- And2, And3
+Output,14, .... [18] Sum1 <- Xor3
+CarryOut,17, .. [19] Cout1 <- Or1
+1, ............ [20] A2
+1, ............ [21] B2
+CarryIn,19, ... [22] Cin2 <- Cout1
+XorGate,20,21,  [23] Xor4 <- A2,B2
+XorGate,22,23,  [24] Xor5 <- Cin2, Xor4
+AndGate,22,23,  [25] And4 <- Cin2, Xor4
+AndGate,20,21,  [26] And5 <- A2, B2
+OrGate,25,26, . [27] Or2  <- And4, And5
+Output,24, .... [28] Sum2  <- Xor5
+CarryOut,27, .. [29] Cout2 <- Or2
+1, ............ [30] A3
+1, ............ [31] B3
+CarryIn,29, ... [32] Cin3  <- Cout2
+XorGate,30,31,  [33] Xor6 <- A3,B3
+XorGate,32,33,  [34] Xor7 <- Cin3, Xor6
+AndGate,32,33,  [35] And6  <- Cin3, Xor6
+AndGate,30,31,  [36] And7 <- A3, B3
+OrGate,35,36, . [37] Or3  <- And6, And7
+Output,34, .... [38] Sum3 <- Xor7
+CarryOut,37, .. [39] Cout3 <- Or3
+1, ............ [40] A4
+1, ............ [41] B4
+CarryIn,39, ... [42] Cin4 <- Cout3
+XorGate,40,41,  [43] Xor8 <- A4,B4
+XorGate,42,43,  [44] Xor9 <- Cin4, Xor8
+AndGate,42,43,  [45] And8 <- Cin4, Xor8
+AndGate,40,41,  [46] And9 <- A4, B4
+OrGate,45,46, . [47] Or4  <- And8, And9
+Output,44, .... [48] Sum4 <- Xor9
+CarryOut,47, .. [49] Cout4 <- Or4
+1, ............ [50] A5
+1, ............ [51] B5
+CarryIn,49, ... [52] Cin5 <- Cout4
+XorGate,50,51,  [53] Xor10<- A5,B5
+XorGate,52,53,  [54] Xor11<- Cin5, Xor10
+AndGate,52,53,  [55] And10 <- Cin5, Xor10
+AndGate,50,51,  [56] And11<- A5, B5
+OrGate,55,56, . [57] Or5 <- And10, And11
+Output,54, .... [58] Sum5 <- Xor11
+CarryOut,57, .. [59] Cout5 <- Or5
+1, ............ [60] A6
+1, ............ [61] B6
+CarryIn,59, ... [62] Cin6 <- Cout5
+XorGate,60,61,  [63] Xor12<- A6,B6
+XorGate,62,63,  [64] Xor13<- Cin6, Xor12
+AndGate,62,63,  [65] And12 <- Cin6, Xor12
+AndGate,60,61,  [66] And13<- A6, B6
+OrGate,65,66, . [67] Or6 <- And12, And13
+Output,64, .... [68] Sum6 <- Xor13
+CarryOut,67, .. [69] Cout6 <- Or6
+1, ............ [70] A7
+1, ............ [71] B7
+CarryIn,69, ... [72] Cin7 <- Cout7
+XorGate,70,71,  [73] Xor14<- A7,B7
+XorGate,72,73,  [74] Xor15<- Cin7, Xor14
+AndGate,72,73,  [75] And14 <- Cin7, Xor14
+AndGate,70,71,  [76] And15<- A7, B7
+OrGate,75,76, . [77] Or7 <- And14, And15
+Output,74, .... [78] Sum7 <- Xor15
+Output,77, .... [79] Cout7 <- Or7

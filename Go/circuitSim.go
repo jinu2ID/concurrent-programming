@@ -14,7 +14,6 @@ var finalOutput []int
 
 // Gate routines
 func inverter(in chan bool, out chan bool, wg *sync.WaitGroup){
-
 	a := <-in
 	out <- !a
 	wg.Done()
@@ -22,7 +21,6 @@ func inverter(in chan bool, out chan bool, wg *sync.WaitGroup){
 
 
 func andGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
-	fmt.Println("AND")
 	a := <-in1
 	b := <-in2
 	in1 <-a
@@ -30,14 +28,10 @@ func andGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
 
 	out <- (a && b)
 	wg.Done()
-	//fmt.Println("AND")
-
 }
 
 
 func orGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
-	
-	fmt.Println("OR")
 	a := <-in1
 	b := <-in2
 
@@ -46,13 +40,9 @@ func orGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
 
 	out <- (a || b)
 	wg.Done()
-	//fmt.Println("OR")
-
 }
 
 func nandGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
-
-	fmt.Println("NAND")
 	a := <-in1
 	b := <-in2
 
@@ -64,8 +54,6 @@ func nandGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
 }
 
 func norGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
-
-	fmt.Println("NOR")
 	a := <-in1
 	b := <-in2
 
@@ -77,8 +65,6 @@ func norGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
 }
 
 func xorGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
-
-	fmt.Println("XOR")
 	a := <-in1
 	b := <-in2
 	in1 <-a
@@ -89,115 +75,53 @@ func xorGate(in1 chan bool, in2 chan bool, out chan bool, wg *sync.WaitGroup){
 		out<-true
 	}
 	wg.Done()
-	//fmt.Println("XOR")
-
 }
+
 
 // Stores input values
 func input(in chan bool, val bool, wg *sync.WaitGroup){
-
-	fmt.Println("INPUT")
 	in <-val
 	wg.Done()
-	//fmt.Println("INPUT")
-
 }
+
 
 // Stores carry values
 func carry(in chan bool, out chan bool, wg *sync.WaitGroup){
-	fmt.Println("CARRY")
 	x := <-in
 	out <-x
 	wg.Done()
-	//fmt.Println("CARRY")
-
 }
+
 
 // Retrieves final output
 func output(out chan bool, index int, wg *sync.WaitGroup){
-
-	fmt.Println("OUTPUT")
 	x := <-out
 	if x {
-//		fmt.Print(1)
 		finalOutput[index] = 1
 	} else {
-//		fmt.Print(0)
 		finalOutput[index] = 0
 	}
 	wg.Done()
-//	fmt.Println("OUTPUT")
-
 }
 
-// fan out
-func fan(target chan bool, n int, wg *sync.WaitGroup){
-	fmt.Println("FAN")
-/*	x := <-target
-	for i := 0; i < n+1; i++ {
-		target <-x
-	}
-*/
-	wg.Done()
 
-}
-
-// Simulates clock signal
-/*func clkSim(freq int, cycles int, signals chan bool){
-
-	// pulses per millisecond
-	pulses := 1000/freq
-	sig := false
-	time := time.Now().Clock()
-
-	for i := 0; i < cycles; i++ {
-		// 1 ms has passed
-		if (time.Now().Clock() > time) {
-			for j := 0; j < pulses; j++{
-				sig = !sig
-				signals <-sig
-			}
-		}
-	}
-
-}
-*/
-
-func simulate(instr []string, lc int) {
+func simulate(instr []string, outputs int) {
 
 	var wg sync.WaitGroup
-	//wg.Add(lc)
 	var channels []chan bool
-	outIndex := lc/10
-//	wgCounter := 0
+	outIndex := outputs
 
 	for _, val := range instr {
 		channel := make(chan bool, 10)
-//		fmt.Println(val)
 		values := strings.Split(val, ",")
 
 		// Inputs
 		if values[0] == "0" {
 			wg.Add(1)
-//			wgCounter++
 			go input(channel, false, &wg)
 		} else if values[0] == "1" {
 			wg.Add(1)
-//			wgCounter++
 			go input(channel, true, &wg)
-		} else if values[0] == "fan"{
-
-			input1, err1 := strconv.Atoi(values[1]);
-			input2, err2 := strconv.Atoi(values[2]);
-
-			if  err1 == nil && err2 == nil {
-				wg.Add(1)
-//				wgCounter++
-				go fan(channels[input1], input2, &wg)
-			} else {
-				fmt.Println("format error in file")
-			}
-
 		} else if values[0] == "AndGate"{
 
 			input1, err1 := strconv.Atoi(values[1]);
@@ -205,7 +129,6 @@ func simulate(instr []string, lc int) {
 
 			if  err1 == nil && err2 == nil {
 				wg.Add(1)
-//				wgCounter++
 				go andGate(channels[input1], channels[input2], channel, &wg)
 
 			} else {
@@ -219,7 +142,6 @@ func simulate(instr []string, lc int) {
 
 			if  err1 == nil && err2 == nil {
 				wg.Add(1)
-//				wgCounter++
 				go orGate(channels[input1], channels[input2], channel, &wg)
 			} else {
 				fmt.Println("format error in file")
@@ -233,7 +155,6 @@ func simulate(instr []string, lc int) {
 
 			if  err1 == nil && err2 == nil {
 				wg.Add(1)
-//				wgCounter++
 				go nandGate(channels[input1], channels[input2], channel, &wg)
 			} else {
 				fmt.Println("format error in file")
@@ -246,7 +167,6 @@ func simulate(instr []string, lc int) {
 
 			if  err1 == nil && err2 == nil {
 				wg.Add(1)
-//				wgCounter++
 				go norGate(channels[input1], channels[input2], channel, &wg)
 			} else {
 				fmt.Println("format error in file")
@@ -259,7 +179,6 @@ func simulate(instr []string, lc int) {
 
 			if  err1 == nil && err2 == nil {
 				wg.Add(1)
-//				wgCounter++
 				go xorGate(channels[input1], channels[input2], channel, &wg)
 			} else {
 				fmt.Println("format error in file")
@@ -268,7 +187,6 @@ func simulate(instr []string, lc int) {
 		} else if (values[0] == "CarryOut") || (values[0] == "CarryIn") {
 			if index, err := strconv.Atoi(values[1]); err == nil{
 				wg.Add(1)
-//				wgCounter++
 				go carry(channels[index], channel, &wg)
 			} else {
 				fmt.Println("format error in file")
@@ -278,7 +196,6 @@ func simulate(instr []string, lc int) {
 			if index, err := strconv.Atoi(values[1]); err == nil{
 
 				wg.Add(1)
-//				wgCounter++
 				go output(channels[index], outIndex, &wg)
 				outIndex--
 
@@ -290,21 +207,15 @@ func simulate(instr []string, lc int) {
 
 		channels = append(channels, channel)
 
-/*		fmt.Println(wgCounter)
-		if wgCounter == 14 {
-			wg.Wait()
-			wgCounter = 0
-			fmt.Println("--------")
-		}*/
 	}
+
 	wg.Wait()
 	fmt.Println(finalOutput)
 }
 
-func read(fileName string) ([]string, int) {
+func read(fileName string) []string {
 
 	var lines []string
-	lineCount := 0
 
 	if file, err := os.Open(fileName); err == nil {
 
@@ -314,33 +225,40 @@ func read(fileName string) ([]string, int) {
 		scanner.Split(bufio.ScanLines)
 		for scanner.Scan() {
 			lines = append(lines, scanner.Text())
-			lineCount++
 		}
 
-		return lines, lineCount
+		return lines
 
 	}
 
-	return lines, lineCount
+	return lines
 }
 
 
 func main(){
 
-	var file string;
+	var file string
+	var outputs int
 
-	if len(os.Args) > 1 {
+	if len(os.Args) > 2 {
 		file = os.Args[1]
+		if value,err := strconv.Atoi(os.Args[2]); err == nil {
+			outputs = value
+		} else {
+			fmt.Println("Incorrect arguments, please check README")
+			return
+		}
+
 	} else {
-		file = "test"
+		fmt.Println("Incorrect arguments, please check README")
+		return
 	}
 
-	var lines, lc = read(file)
+	var lines = read(file)
 	if len(lines) == 0 {
 		fmt.Println("Error: could not find file")
 	}
 
-	finalOutput = make([]int, lc/10+1)	// Magic number needs fix; 14 = num of lines for a full adder
-
-	simulate(lines, lc)
+	finalOutput = make([]int, outputs+1)
+	simulate(lines, outputs)
 }

@@ -1,8 +1,6 @@
 1, ............ [0] A		
 1, ............ [1] B
-fan,0,1, ...... [2] fan A -> Xor1, And1
-fan,1,1, ...... [3] fan B -> Xor1, And1
-XorGate,0,1, .. [4] Xor1 <- A,B
-AndGate,0,1, .. [5] And1 <- A,B
-Output,4, ..... [6] Sum <- Xor1
-Output,5, ..... [7] Carry <- And1
+XorGate,0,1, .. [2] Xor1 <- A,B
+AndGate,0,1, .. [3] And1 <- A,B
+Output,2, ..... [4] Sum <- Xor1
+Output,3, ..... [5] Carry <- And1
