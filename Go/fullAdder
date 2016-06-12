@@ -1,14 +1,10 @@
 1, ............ [0] A 
 1, ............ [1] B
-1, ............ [2] Cin
-fan,0,1, ...... [3] fan A -> Xor1, And2
-fan,1,1, ...... [4] fan B -> Xor1, And2
-fan,2,1, ...... [5] fan C -> Xor2, And1
-XorGate,0,1, .. [6] Xor1 <- A,B
-fan,6,1, ...... [7] fan Xor1 -> Xor2, And1 	
-XorGate,2,6, .. [8] Xor2 <- Cin, Xor1
-AndGate,2,6, .. [9] And1 <- Cin, Xor1 
-AndGate,0,1, .. [10] And2 <- A,B
-OrGate,9,10, .. [11] Or1 <- And1, And2
-Output,8, ..... [12] Sum <- Xor2
-Output,11, .... [13] Cout <- Or1
+0, ............ [2] Cin
+XorGate,0,1, .. [3] Xor1 <- A,B
+XorGate,2,3, .. [4] Xor2 <- Cin, Xor1
+AndGate,2,3, .. [5] And1 <- Cin, Xor1 
+AndGate,0,1, .. [6] And2 <- A,B
+OrGate,5,6, ... [7] Or1 <- And1, And2
+Output,4, ..... [8] Sum <- Xor2
+Output,7, ..... [9] Cout <- Or1
